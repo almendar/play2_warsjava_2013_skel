@@ -1,0 +1,71 @@
+@()(implicit session: play.api.mvc.Session)
+
+@main("All system users") {
+	<script>
+	
+	
+	 $(function() {
+	
+	  $( "#tags" ).autocomplete({
+	    source: "@routes.LoggedInUserActions.searchForUsers()"
+	  });
+	  });
+	</script>
+	
+	<script>
+
+		var succFn = function success(data) {
+			$("div").remove(".message")
+			var text = data.toString();
+			var namesArray = text.split(",")
+			for(var i=0; i < namesArray.length; i++) {
+				 var el = $('<div class="message"><p></p></div>')
+				 $("p", el).text(namesArray[i])
+				 $("#userNames").append(el)
+			}
+			/* Create space for text */
+			 
+			 
+		}
+
+		var failFn = function fail(data) {
+			alert(data)
+		}
+		
+		function writeUserNames() {
+			var insertedText = $("#tags").val()
+			_playRouter.controllers.LoggedInUserActions.searchForUsers(insertedText).ajax({
+					success: succFn,
+					error:   failFn
+			});
+		};
+	</script>
+	
+} {
+
+	<table style="border-style: solid;">
+	<th>
+	  <td>Login</td>
+	  <td>Email</td>
+	  <td>Password</td>
+	</th>
+	@model.User.allUsers.map { u =>
+		<tr>
+		    <td></td>
+			<td>@u.login</td>
+			<td>@u.email</td>
+			<td>@u.password</td>
+		</tr>
+	}
+	</table>
+	<br/>
+	<div class="ui-widget">
+		<label for="tags">Insert user name to get name: </label>
+		<input id="tags" />
+	</div>
+	
+	<button  onclick="writeUserNames()"> Zapisz wszystkich na stronie</button>
+	
+	<div id="userNames"></div>
+	
+}

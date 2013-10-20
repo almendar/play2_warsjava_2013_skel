@@ -1,0 +1,35 @@
+@(loginForm: Form[(String,String)])(implicit session: play.api.mvc.Session, flash: Flash)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Login page"){
+} {
+	
+	
+	@flash.get("success").getOrElse("Welcome")
+
+	@helper.form(action = routes.SignUp.tryToAuthenticate) {
+		
+		@inputText(
+			loginForm("login"),
+			'label->"Login",
+			'_showConstraints -> false
+			)
+			
+		@inputPassword(
+			loginForm("password"),
+			'label -> "Password",
+			'_showConstraints -> false
+			)
+	
+	
+	<input type="submit" class="btn primary" value="Login">
+	}
+	
+    
+	
+}
+
+

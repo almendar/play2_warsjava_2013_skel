@@ -1,0 +1,67 @@
+@(tweets : Seq[model.Tweet])(implicit session: play.api.mvc.Session,request: RequestHeader) 
+
+
+<style type="text/css">
+		  .odd {background-color: #FF0000;}
+		  .even {background-color: #00FF00;}
+</style>
+
+@modulo2(row : Int) = {
+  @if(row%2==0) {
+  	odd
+  	} else {
+  	even
+  	}
+}
+
+
+@main("All tweets"){
+} {
+	<div id=tweets>
+	<table>
+		@tweets.zipWithIndex.map { case(t,nr) =>
+			<tr>
+			<td class=@modulo2(nr)>@tweet(t)</td>
+			</tr>
+		}
+		</table>
+	
+	</div>
+	
+	<script type="text/javascript" charset="utf-8">
+    
+        $(function() {
+        
+         
+        
+        	console.debug("Websocket live")
+            
+			var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket
+            var chatSocket = new WS("@routes.LoggedInUserActions.event().webSocketURL()")
+            
+            var sendMessage = function(x,y) {
+                chatSocket.send(JSON.stringify(
+                    {"x": x, "y" : y}
+                ))
+                
+            }
+            
+            $(document).mousemove(function(event){
+            	sendMessage(event.pageX,event.pageY)
+			});
+            
+            var receiveEvent = function(event) {
+            	console.log("Event came")
+                var data = JSON.parse(event.data)
+                var el = '<b>' + data.login + '</b>' + '<p class="text">' + data.text + '</p>' + '<p class="date">Posted at:' + data.date +'</p><br /><br />';
+                $('#tweets').before(el)
+                
+            }
+            
+            chatSocket.onmessage = receiveEvent
+            
+        })
+    
+    </script>
+	
+}

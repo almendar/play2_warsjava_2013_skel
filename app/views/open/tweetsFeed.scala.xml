@@ -1,0 +1,24 @@
+@(user:model.User, tweets:Seq[model.Tweet])
+<?xml version="1.0" encoding="utf-8"?>
+@import org.joda.time.DateTime.now
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en-us">
+  <title type="text">@user.login Tweet stream</title>
+  <updated>@now</updated>
+  <author>
+    <name>@user.login</name>
+  </author>
+  <id>user.email</id> 
+  @tweets.map { t =>
+  <entry>
+    <id>@t.user @t.date</id>
+    <title>Tweet from @t.user from @t.date</title>
+    <updated>@t.date</update>
+    <summary>
+  	  Empty
+    </summary>
+    <content type="text">@t.text</content>
+    
+ </entry>
+}
+</feed>
+  

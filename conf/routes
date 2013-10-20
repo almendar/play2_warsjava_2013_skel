@@ -3,9 +3,80 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
+GET     /                           controllers.LoggedInUserActions.timeLine
+
+GET 	/login						controllers.SignUp.login
+POST	/login						controllers.SignUp.tryToAuthenticate
+
+GET		/logout						controllers.SignUp.logout
+
+GET		/admin/users				controllers.Admins.allUsers
+
+GET		/addUser					controllers.SignUp.signUpPage
+POST	/addUser					controllers.SignUp.submit
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              controllers.WebJarAssets.at(file)
 
-GET     /webjars/*file                    controllers.WebJarAssets.at(file)
+POST	/uploadfile					controllers.Application.saveToFile()
+
+GET		/intStream					controllers.Application.steadyStream
+GET		/intFiniteStream			controllers.Application.steadyStreamKnownSize
+
+
+# Only ajax calls
+GET 	/users						controllers.LoggedInUserActions.searchForUsers(term ?= "")
+
+GET    /usersSearch					controllers.LoggedInUserActions.searchForUsersHtml()
+
+
+GET	   /api/tweetsForUser/:user/atom.xml			controllers.Open.getUserTweetsAsAtom(user)
+
+GET	   /comet										controllers.LoggedInUserActions.cometStream()
+GET	   /cometPage									controllers.LoggedInUserActions.cometPage()
+
+
+GET	  /postImage									controllers.LoggedInUserActions.imagePostPage()
+POST  /postImage									controllers.LoggedInUserActions.postImage()
+
+GET  /images										controllers.LoggedInUserActions.showImages()
+
+GET  /image/:name									controllers.LoggedInUserActions.serveImage(name)
+
+# Regex fun
+GET		/twoParams					controllers.RegexFun.twoParameters(id1="First",id2="Second")
+GET 	/twoParams/:id1/:id2/		controllers.RegexFun.twoParameters(id1,id2)
+
+GET		/oneParamRegex/$id<[0-9]+s> controllers.RegexFun.numberEndingWithS(id)
+GET 	/plusplus/$id<[0-9]+>		controllers.RegexFun.plusPlus(id:Long)
+GET 	/plusplusBad/$id<[0-9]*>	controllers.RegexFun.plusPlus(id:Long)
+
+GET		/param						controllers.RegexFun.pureStringParam(arg1)
+#This will fail because of enind /
+#GET		/param/						controllers.RegexFun.pureStringParam(arg1)
+
+#This will not fire
+GET		/param						controllers.RegexFun.stringLongParam(arg1,arg2:Long)
+#this will also fail
+GET		/param						controllers.RegexFun.stringLongParam(arg3,arg4:Long)
+
+
+# Protected by login routes
+
+GET		/tweet						controllers.LoggedInUserActions.composeTweet
+POST 	/tweet						controllers.LoggedInUserActions.postTweet
+
+GET 	/timeLine					controllers.LoggedInUserActions.timeLine
+
+
+GET		/jaja						controllers.Application.jaja
+
+GET		/jsRoutes					controllers.Application.js
+
+
+GET 	/publicTimeLine				controllers.Admins.seeAllTweets
+
+GET     /ws/tweets                  controllers.LoggedInUserActions.event
+
+GET		/:user/password				controllers.LoggedInUserActions.seeMyPassword(user)

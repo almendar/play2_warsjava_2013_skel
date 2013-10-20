@@ -1,0 +1,22 @@
+@()(implicit session: play.api.mvc.Session) 
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Search for registered user") {
+	<script>
+
+	 $(function() {
+	
+	  $( "#tags" ).autocomplete({
+	    source: "@routes.LoggedInUserActions.searchForUsers()"
+	  });
+	  });
+	</script>
+	} {
+		<div class="ui-widget">
+		<label for="tags">Tags: </label>
+		<input id="tags" />
+		</div>
+		
+}

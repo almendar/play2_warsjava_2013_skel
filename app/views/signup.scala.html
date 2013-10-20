@@ -1,0 +1,50 @@
+@(param: Form[model.User])(implicit session: play.api.mvc.Session)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Signup page"){ 
+}{
+	
+	 @helper.form(action = routes.SignUp.submit) {
+	 	
+	 	 
+        <fieldset>
+        
+	 	@inputText(
+	 		param("login"),
+	 		'_label -> "Login",
+	 		'_showConstraints -> false
+	 		)
+	 		
+ 		@inputText(
+ 			param("email"),
+ 			'_label -> "Email",
+ 			'_showConstraints -> false
+ 			)
+ 	
+ 		@inputPassword(
+ 			param("password.main"),
+ 			'_label -> "Password",
+ 			'_showConstraints -> false
+ 		)
+ 			
+ 		@inputPassword(
+ 			param("password.confirm"),
+ 			'_label -> "Repeate password" 
+ 			)
+ 			
+ 		@input(param("password")) { (id, name, value, maps) =>
+ 			
+ 		}
+ 			
+ 		</fieldset>
+ 			
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Insert">
+            <a href="@routes.Admins.allUsers" class="btn">Cancel</a>
+        </div>
+	}
+
+}
+

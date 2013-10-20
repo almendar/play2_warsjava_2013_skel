@@ -1,0 +1,13 @@
+@()(implicit session: play.api.mvc.Session)
+
+@main("All tweets") {
+} {
+	
+	@model.Tweet.allTweets.map { t =>
+		<b>@t.user </b>
+		<p>@t.text</p>
+		<p>Posted at: @t.date</p>
+		<br />
+		<br />
+	}
+} 

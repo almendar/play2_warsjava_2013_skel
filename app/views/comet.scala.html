@@ -1,0 +1,20 @@
+@()(implicit session: play.api.mvc.Session)
+
+@main("Comet") {
+	
+} {
+<iframe src="@routes.LoggedInUserActions.cometStream" width="0px" height="0px"  frameborder="0"> </iframe>
+
+<script type="text/javascript">
+  var cometMessage = function(event) {
+	 var el = $('<div class="message"><p></p></div>')
+	 $("p", el).text(event)
+	 $("#message").append(el)
+  }
+</script>
+
+<div id="message"></div>
+
+
+
+}

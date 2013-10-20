@@ -1,0 +1,20 @@
+@(formImg: Form[String])(implicit session: play.api.mvc.Session)
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Upload image"){
+	
+} {
+	@helper.form(action = routes.LoggedInUserActions.postImage,'enctype -> "multipart/form-data") {
+	@inputText(
+		formImg("description"),
+		'placeholder  -> "Opis",
+		'label -> "Opis obrazka"
+	)
+	<input type="file" name="picture">
+	<input type="submit" class="btn primary" value="Upload">
+	}
+}
+

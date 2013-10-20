@@ -1,0 +1,23 @@
+@(tweetForm : Form[String])(implicit session: play.api.mvc.Session) 
+
+@import helper._
+@import helper.twitterBootstrap._
+
+
+@main("Compose new tweet"){
+	
+} {
+	
+	@helper.form(action = routes.LoggedInUserActions.postTweet()) {
+	
+	@inputText(
+		tweetForm("tweetText"),
+		'rows -> 60,
+		'cols -> 40
+	)
+		
+	<input type="submit" class="btn primary" value="Tweet">
+	}
+	
+	
+}

@@ -1,0 +1,23 @@
+@(param: Seq[model.Picture])(implicit session: play.api.mvc.Session,flash: Flash) 
+
+
+@main("All images"){
+	
+} {
+	
+	@flash.get("success").map{t =>
+		<h2 class="text-@flash.get("text")">@t</h2>
+	}
+	
+	
+	@param.map { p =>
+		<img src="@routes.LoggedInUserActions.serveImage(p.fileName)" class="img-responsive img-circle" />
+		<p class="text-info">@p.description</p>
+	}
+	
+	
+	
+}
+
+
+

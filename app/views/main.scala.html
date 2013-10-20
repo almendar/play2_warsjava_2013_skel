@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String)(headContent: Html)(content: Html)(implicit session: play.api.mvc.Session) 
 
 <!DOCTYPE html>
 
@@ -11,8 +11,34 @@
         <script src="@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui-1.9.0.custom.js"))"></script>
         <link rel='stylesheet' media='screen' href='@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.css"))'>
         <link rel='stylesheet' media='screen' href='@routes.WebJarAssets.at(WebJarAssets.locate("jquery-ui-1.9.0.custom.css"))'>
+        
+        <script src="@routes.Application.js" type="text/javascript"></script>
+        @headContent
     </head>
     <body>
-        @content
+   	<div class="container">
+   	<div class="row">
+    @if(session.get("user")) {
+    	<div class="col-md-2">
+    		<p>Witaj @session.get("user")</p>
+   		</div>
+    	<div class="col-md-10">
+	    	<a href="@routes.LoggedInUserActions.composeTweet">Napisz tweet</a>
+	    	<a href="@routes.LoggedInUserActions.imagePostPage">Uploduj fote</a>
+	    	<a href="@routes.LoggedInUserActions.timeLine">Przegladaj timeline</a>
+	    	<a href="@routes.LoggedInUserActions.showImages">Przegladaj fotki</a>
+	    	<a href="@routes.SignUp.logout">Wyloguj sie</a>
+    	</div>
+    } else {
+    	<div class="col-md-8">
+    		<a href="@routes.SignUp.login">Zaloguj sie</a>
+			<a href="@routes.SignUp.signUpPage">Zarejestruj sie</a>
+		</div>
+	}
+	</div>
+	
+	<div class="row">
+  		<div class="col-md-12">@content</div>
+    </div>
     </body>
 </html>
